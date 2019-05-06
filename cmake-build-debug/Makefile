@@ -150,6 +150,33 @@ Main.cpp.s:
 	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
+MapReduceFramework.o: MapReduceFramework.cpp.o
+
+.PHONY : MapReduceFramework.o
+
+# target to build an object file
+MapReduceFramework.cpp.o:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/MapReduceFramework.cpp.o
+.PHONY : MapReduceFramework.cpp.o
+
+MapReduceFramework.i: MapReduceFramework.cpp.i
+
+.PHONY : MapReduceFramework.i
+
+# target to preprocess a source file
+MapReduceFramework.cpp.i:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/MapReduceFramework.cpp.i
+.PHONY : MapReduceFramework.cpp.i
+
+MapReduceFramework.s: MapReduceFramework.cpp.s
+
+.PHONY : MapReduceFramework.s
+
+# target to generate assembly for a file
+MapReduceFramework.cpp.s:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/MapReduceFramework.cpp.s
+.PHONY : MapReduceFramework.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +189,9 @@ help:
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"
+	@echo "... MapReduceFramework.o"
+	@echo "... MapReduceFramework.i"
+	@echo "... MapReduceFramework.s"
 .PHONY : help
 
 

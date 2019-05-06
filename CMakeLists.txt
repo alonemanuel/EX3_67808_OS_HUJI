@@ -3,4 +3,4 @@ project(Ex3)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Ex3 Main.cpp)
+add_executable(Ex3 Main.cpp MapReduceFramework.h MapReduceFramework.cpp MapReduceClient.h)
