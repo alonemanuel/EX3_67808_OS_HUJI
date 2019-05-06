@@ -1,0 +1,3 @@
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/Ex3.dir
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/edit_cache.dir
