@@ -1,4 +1,4 @@
-C:\Users\aeder\.CLion2018.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3
+/usr/local/APP/jetbrains/clion/2018.2.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI
 -- Configuring done
 -- Generating done
--- Build files have been written to: /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug
+-- Build files have been written to: /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug

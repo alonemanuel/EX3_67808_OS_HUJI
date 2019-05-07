@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /cygdrive/c/Users/aeder/.CLion2018.2/system/cygwin_cmake/bin/cmake.exe
+CMAKE_COMMAND = /usr/local/APP/jetbrains/clion/2018.2.1/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /cygdrive/c/Users/aeder/.CLion2018.2/system/cygwin_cmake/bin/cmake.exe -E remove -f
+RM = /usr/local/APP/jetbrains/clion/2018.2.1/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3
+CMAKE_SOURCE_DIR = /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug
+CMAKE_BINARY_DIR = /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_O
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/cygdrive/c/Users/aeder/.CLion2018.2/system/cygwin_cmake/bin/cmake.exe -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/APP/jetbrains/clion/2018.2.1/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/cygdrive/c/Users/aeder/.CLion2018.2/system/cygwin_cmake/bin/cmake.exe -E echo No\ interactive\ CMake\ dialog\ available.
+	/usr/local/APP/jetbrains/clion/2018.2.1/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,32 +123,32 @@ Ex3/fast:
 	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/build
 .PHONY : Ex3/fast
 
-Main.o: Main.cpp.o
+Barrier.o: Barrier.cpp.o
 
-.PHONY : Main.o
+.PHONY : Barrier.o
 
 # target to build an object file
-Main.cpp.o:
-	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Main.cpp.o
-.PHONY : Main.cpp.o
+Barrier.cpp.o:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Barrier.cpp.o
+.PHONY : Barrier.cpp.o
 
-Main.i: Main.cpp.i
+Barrier.i: Barrier.cpp.i
 
-.PHONY : Main.i
+.PHONY : Barrier.i
 
 # target to preprocess a source file
-Main.cpp.i:
-	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Main.cpp.i
-.PHONY : Main.cpp.i
+Barrier.cpp.i:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Barrier.cpp.i
+.PHONY : Barrier.cpp.i
 
-Main.s: Main.cpp.s
+Barrier.s: Barrier.cpp.s
 
-.PHONY : Main.s
+.PHONY : Barrier.s
 
 # target to generate assembly for a file
-Main.cpp.s:
-	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Main.cpp.s
-.PHONY : Main.cpp.s
+Barrier.cpp.s:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Barrier.cpp.s
+.PHONY : Barrier.cpp.s
 
 MapReduceFramework.o: MapReduceFramework.cpp.o
 
@@ -177,6 +177,60 @@ MapReduceFramework.cpp.s:
 	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/MapReduceFramework.cpp.s
 .PHONY : MapReduceFramework.cpp.s
 
+SampleClient.o: SampleClient.cpp.o
+
+.PHONY : SampleClient.o
+
+# target to build an object file
+SampleClient.cpp.o:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/SampleClient.cpp.o
+.PHONY : SampleClient.cpp.o
+
+SampleClient.i: SampleClient.cpp.i
+
+.PHONY : SampleClient.i
+
+# target to preprocess a source file
+SampleClient.cpp.i:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/SampleClient.cpp.i
+.PHONY : SampleClient.cpp.i
+
+SampleClient.s: SampleClient.cpp.s
+
+.PHONY : SampleClient.s
+
+# target to generate assembly for a file
+SampleClient.cpp.s:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/SampleClient.cpp.s
+.PHONY : SampleClient.cpp.s
+
+Tests/Tarantino/WordFrequencies.o: Tests/Tarantino/WordFrequencies.cpp.o
+
+.PHONY : Tests/Tarantino/WordFrequencies.o
+
+# target to build an object file
+Tests/Tarantino/WordFrequencies.cpp.o:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o
+.PHONY : Tests/Tarantino/WordFrequencies.cpp.o
+
+Tests/Tarantino/WordFrequencies.i: Tests/Tarantino/WordFrequencies.cpp.i
+
+.PHONY : Tests/Tarantino/WordFrequencies.i
+
+# target to preprocess a source file
+Tests/Tarantino/WordFrequencies.cpp.i:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.i
+.PHONY : Tests/Tarantino/WordFrequencies.cpp.i
+
+Tests/Tarantino/WordFrequencies.s: Tests/Tarantino/WordFrequencies.cpp.s
+
+.PHONY : Tests/Tarantino/WordFrequencies.s
+
+# target to generate assembly for a file
+Tests/Tarantino/WordFrequencies.cpp.s:
+	$(MAKE) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.s
+.PHONY : Tests/Tarantino/WordFrequencies.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -184,14 +238,20 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... Ex3"
 	@echo "... edit_cache"
-	@echo "... Main.o"
-	@echo "... Main.i"
-	@echo "... Main.s"
+	@echo "... Ex3"
+	@echo "... Barrier.o"
+	@echo "... Barrier.i"
+	@echo "... Barrier.s"
 	@echo "... MapReduceFramework.o"
 	@echo "... MapReduceFramework.i"
 	@echo "... MapReduceFramework.s"
+	@echo "... SampleClient.o"
+	@echo "... SampleClient.i"
+	@echo "... SampleClient.s"
+	@echo "... Tests/Tarantino/WordFrequencies.o"
+	@echo "... Tests/Tarantino/WordFrequencies.i"
+	@echo "... Tests/Tarantino/WordFrequencies.s"
 .PHONY : help
 
 

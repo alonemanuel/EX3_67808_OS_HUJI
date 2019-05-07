@@ -4,8 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Main.cpp" "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/Ex3.dir/Main.cpp.o"
-  "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.cpp" "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/Ex3.dir/MapReduceFramework.cpp.o"
+  "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Barrier.cpp" "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles/Ex3.dir/Barrier.cpp.o"
+  "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.cpp" "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles/Ex3.dir/MapReduceFramework.cpp.o"
+  "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/SampleClient.cpp" "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles/Ex3.dir/SampleClient.cpp.o"
+  "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp" "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
