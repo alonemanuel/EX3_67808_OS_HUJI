@@ -72,11 +72,11 @@ void emit3(K3 *key, V3 *value, void *context)
 
 void threadMapReduce(void *arg)
 {
-	cout<<LOG_PREFIX<<"Starting thread job"<<endl;
 	auto argP = *((ThreadContext *) arg);
+	cout << LOG_PREFIX << "Starting thread job on input of size " << argP.inputVec.size() << endl;
 
 	auto *inter = new std::vector<std::pair<K2 *, V2 *>>();
-	cout<<LOG_PREFIX<<"Putting pairs into interVec of size "<<argP.interVec_size<<endl;
+	cout << LOG_PREFIX << "Putting pairs into interVec of size " << argP.interVec_size << endl;
 	for (int i = 0; i < argP.interVec_size; ++i)
 	{
 		(*(argP.atomicCounter))++;    // to avoid race conditions. TODO: mutex?
@@ -85,7 +85,7 @@ void threadMapReduce(void *arg)
 		argP.client->map(currPair.first, currPair.second, inter);
 //		printVector(*inter);
 	}
-	cout<<LOG_PREFIX<<"Done putting pairs into interVec"<<endl;
+	cout << LOG_PREFIX << "Done putting pairs into interVec" << endl;
 
 	std::sort(inter->begin(), inter->end());
 	argP.barrier->barrier(); // waiting for unlock
@@ -106,11 +106,17 @@ JobHandle startMapReduceJob(const MapReduceClient &client,
 		 << endl;
 	Barrier *barrier = new Barrier(multiThreadLevel);
 	cout << LOG_PREFIX << "Created barrier" << endl;
+	int interSize = (int) inputVec.size() / multiThreadLevel;
+	cout << LOG_PREFIX << "Inter size (floor) is " << interSize << endl;
+	int diff = (int) inputVec.size() - (interSize * multiThreadLevel);
+	cout << LOG_PREFIX << "Diff to be added to vec 1 is " << diff << endl;
+
 	for (int i = 0; i < multiThreadLevel; ++i)
 	{
 		ThreadContext *context = new ThreadContext(inputVec,
-												   (int) (inputVec.size() / multiThreadLevel),
-												   atomic_counter, outputVec, &client, barrier);
+												   i == 0 ? interSize + diff : interSize,
+												   atomic_counter, outputVec, &client,
+												   barrier);
 		cout << LOG_PREFIX << "Created context " << i << endl;
 		pthread_create(threads + i, nullptr, (void *(*)(void *)) threadMapReduce, context);
 		cout << LOG_PREFIX << "Created thread " << i << endl;
