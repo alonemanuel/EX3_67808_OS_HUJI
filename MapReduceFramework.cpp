@@ -25,6 +25,7 @@ typedef struct JobContext
 
 typedef struct ThreadContext
 {
+	int threadNum;
 	std::vector<std::pair<K1 *, V1 *>> inputVec;
 	int interVec_size;
 	std::atomic<int> *atomicCounter;
@@ -32,19 +33,20 @@ typedef struct ThreadContext
 	const MapReduceClient *client;
 	Barrier *barrier;
 
-	ThreadContext(std::vector<std::pair<K1 *, V1 *>> _inputVec, int _interVec_size,
+	ThreadContext(int _threadNum, std::vector<std::pair<K1 *, V1 *>> _inputVec, int _interVec_size,
 				  std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
-				  _outputVec, const MapReduceClient *_client, Barrier *_barrier) : inputVec(
+				  _outputVec, const MapReduceClient *_client, Barrier *_barrier) :
+			threadNum(_threadNum), inputVec(
 			std::move(_inputVec)),
-																				   interVec_size(
-																						   _interVec_size),
-																				   atomicCounter(
-																						   _atomicCounter),
-																				   outputVec(
-																						   std::move(
-																								   _outputVec)),
-																				   client(_client),
-																				   barrier(_barrier)
+			interVec_size(
+					_interVec_size),
+			atomicCounter(
+					_atomicCounter),
+			outputVec(
+					std::move(
+							_outputVec)),
+			client(_client),
+			barrier(_barrier)
 	{}
 
 } ThreadContext;
@@ -72,20 +74,30 @@ void emit3(K3 *key, V3 *value, void *context)
 
 void threadMapReduce(void *arg)
 {
+
 	auto argP = *((ThreadContext *) arg);
-	cout << LOG_PREFIX << "Starting thread job on input of size " << argP.inputVec.size() << endl;
 
 	auto *inter = new std::vector<std::pair<K2 *, V2 *>>();
-	cout << LOG_PREFIX << "Putting pairs into interVec of size " << argP.interVec_size << endl;
-	for (int i = 0; i < argP.interVec_size; ++i)
+	cout << LOG_PREFIX << "Putting pairs into interVec" << endl;
+	while (argP.atomicCounter->load() < argP.inputVec.size())
+		//	for (int i = 0; i < argP.interVec_size; ++i)
 	{
-		(*(argP.atomicCounter))++;    // to avoid race conditions. TODO: mutex?
-		signed int oldVal = argP.atomicCounter->load() - 1;
-		std::pair<K1 *, V1 *> currPair = argP.inputVec.at((unsigned long) oldVal);
+		int oldValue = (*(argP.atomicCounter))++;    // This could cause index out of bounds
+		// TODO: Atomic counter is unused.
+//		(*(argP.atomicCounter))++;    // to avoid race conditions. TODO: mutex?
+//		signed int oldVal = argP.atomicCounter->load() - 1;
+		std::pair<K1 *, V1 *> currPair = argP.inputVec.at(oldValue);
+		//Debugging every Xth
+		if (oldValue % 300 == 0)
+		{
+			cout << LOG_PREFIX << "Mapping pair " << oldValue << " to thread " << argP.threadNum
+				 << endl;
+		}
 		argP.client->map(currPair.first, currPair.second, inter);
-//		printVector(*inter);
 	}
-	cout << LOG_PREFIX << "Done putting pairs into interVec" << endl;
+	cout << LOG_PREFIX << "Done putting pairs into thread "<<argP.threadNum<<" which is now of "
+																		  "actual size " <<
+		 inter->size() << endl;
 
 	std::sort(inter->begin(), inter->end());
 	argP.barrier->barrier(); // waiting for unlock
@@ -97,7 +109,7 @@ JobHandle startMapReduceJob(const MapReduceClient &client,
 							const InputVec &inputVec, OutputVec &outputVec,
 							int multiThreadLevel)
 {
-	cout << endl << LOG_PREFIX << "Starting job" << endl;
+	cout << endl << LOG_PREFIX << "Starting job on input of size " << inputVec.size() << endl;
 	std::atomic<int> *atomic_counter = new std::atomic<int>(0);    // atomic counter to be used
 // as input vec index.
 
@@ -105,21 +117,18 @@ JobHandle startMapReduceJob(const MapReduceClient &client,
 	cout << LOG_PREFIX << "Created threads structure with " << multiThreadLevel << " threads"
 		 << endl;
 	Barrier *barrier = new Barrier(multiThreadLevel);
-	cout << LOG_PREFIX << "Created barrier" << endl;
 	int interSize = (int) inputVec.size() / multiThreadLevel;
-	cout << LOG_PREFIX << "Inter size (floor) is " << interSize << endl;
+	cout << LOG_PREFIX << "Expected work load of each thread is ~" << interSize << endl;
 	int diff = (int) inputVec.size() - (interSize * multiThreadLevel);
-	cout << LOG_PREFIX << "Diff to be added to vec 1 is " << diff << endl;
 
 	for (int i = 0; i < multiThreadLevel; ++i)
 	{
-		ThreadContext *context = new ThreadContext(inputVec,
+		ThreadContext *context = new ThreadContext(i, inputVec,
 												   i == 0 ? interSize + diff : interSize,
 												   atomic_counter, outputVec, &client,
 												   barrier);
-		cout << LOG_PREFIX << "Created context " << i << endl;
 		pthread_create(threads + i, nullptr, (void *(*)(void *)) threadMapReduce, context);
-		cout << LOG_PREFIX << "Created thread " << i << endl;
+		cout << LOG_PREFIX << "Created context and thread " << i << endl;
 	}
 
 	cout << LOG_PREFIX << "Ended job" << endl << endl;
