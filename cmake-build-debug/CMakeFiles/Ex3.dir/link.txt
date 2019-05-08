@@ -1,1 +1,1 @@
-/usr/bin/c++   -pthread -g   CMakeFiles/Ex3.dir/MapReduceFramework.cpp.o CMakeFiles/Ex3.dir/SampleClient.cpp.o CMakeFiles/Ex3.dir/Barrier.cpp.o CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o  -o Ex3 
+/usr/bin/c++.exe  -pthread -g  -Wl,--enable-auto-import CMakeFiles/Ex3.dir/MapReduceFramework.cpp.o CMakeFiles/Ex3.dir/SampleClient.cpp.o CMakeFiles/Ex3.dir/Barrier.cpp.o CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o  -o Ex3.exe -Wl,--out-implib,libEx3.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

@@ -6,23 +6,47 @@
 
 #IncludeRegexTransform: 
 
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Barrier.h
+pthread.h
+-
+
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceClient.h
 vector
 -
 utility
 -
 
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.cpp
+pthread.h
+-
+atomic
+-
+iostream
+-
+utility
+-
+algorithm
+-
 MapReduceClient.h
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceClient.h
+MapReduceFramework.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.h
+Barrier.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Barrier.h
+Tests/Tarantino/WordFrequenciesClient.hpp
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Tests/Tarantino/WordFrequenciesClient.hpp
 
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.h
+MapReduceClient.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceClient.h
+
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Tests/Tarantino/WordFrequencies.cpp
 WordFrequenciesClient.hpp
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Tests/Tarantino/WordFrequenciesClient.hpp
 algorithm
 -
 
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Tests/Tarantino/WordFrequenciesClient.hpp
 fstream
 -
 iostream
@@ -31,8 +55,8 @@ sstream
 -
 unistd.h
 -
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h
--
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.h
--
+../../MapReduceClient.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceClient.h
+../../MapReduceFramework.h
+/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.h
 

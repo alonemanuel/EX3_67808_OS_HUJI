@@ -8,107 +8,103 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Ex3">
-				<Option output="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Ex3" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug"/>
+				<Option output="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Ex3.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/8"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
-					<Add directory="/usr/include/c++/8/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include"/>
 					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../lib/../include/w32api"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 Ex3"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 Ex3"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Ex3/fast">
-				<Option output="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Ex3" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug"/>
+				<Option output="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Ex3.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/8"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
-					<Add directory="/usr/include/c++/8/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/include"/>
 					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../lib/../include/w32api"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 Ex3/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 Ex3/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Barrier.cpp">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Barrier.cpp">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Barrier.h">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Barrier.h">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceClient.h">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.cpp">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.cpp">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.h">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.h">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/SampleClient.cpp">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/SampleClient.cpp">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Tests/Tarantino/WordFrequencies.cpp">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Tests/Tarantino/WordFrequenciesClient.hpp">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/CMakeLists.txt">
+		<Unit filename="/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

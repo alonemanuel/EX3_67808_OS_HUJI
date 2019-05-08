@@ -4,7 +4,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Ex3.dir/Barrier.cpp.o"
   "CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o"
   "Ex3.pdb"
-  "Ex3"
+  "Ex3.exe"
+  "libEx3.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
