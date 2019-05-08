@@ -14,8 +14,10 @@ using std::ifstream;
 using std::ofstream;
 using std::vector;
 
+
 // TODO: Play with this path to match your directories
-const string SCRIPTS_DIR = "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/scripts/";
+const string SCRIPTS_DIR = "E:\\alon_emanuel_drive\\School\\Year2\\Semester2\\67808_OS\\Exercises"
+                           "\\Ex3\\Tests\\Tarantino\\scripts\\";
 const int REPORT_FREQ_MS = 500;
 
 class ScriptJob

@@ -7,6 +7,7 @@ typedef void* JobHandle;
 
 enum stage_t {UNDEFINED_STAGE=0, MAP_STAGE=1, REDUCE_STAGE=2};
 
+static const char *const LOG_PREFIX = "LOG: ";
 typedef struct {
 	stage_t stage;
 	float percentage;
