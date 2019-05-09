@@ -25,6 +25,7 @@ typedef struct JobContext
 
 typedef struct ThreadContext
 {
+	JobContext *jobContext;
 	int threadNum;
 	std::vector<std::pair<K1 *, V1 *>> inputVec;
 	int interVec_size;
@@ -33,9 +34,12 @@ typedef struct ThreadContext
 	const MapReduceClient *client;
 	Barrier *barrier;
 
-	ThreadContext(int _threadNum, std::vector<std::pair<K1 *, V1 *>> _inputVec, int _interVec_size,
+	ThreadContext(JobContext *_jobContext, int _threadNum, std::vector<std::pair<K1 *, V1 *>>
+	_inputVec, int
+				  _interVec_size,
 				  std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
 				  _outputVec, const MapReduceClient *_client, Barrier *_barrier) :
+			jobContext(_jobContext),
 			threadNum(_threadNum), inputVec(
 			std::move(_inputVec)),
 			interVec_size(
@@ -79,29 +83,31 @@ void threadMapReduce(void *arg)
 
 	auto *inter = new std::vector<std::pair<K2 *, V2 *>>();
 	cout << LOG_PREFIX << "Putting pairs into interVec" << endl;
+	argP.jobContext->state.stage = MAP_STAGE;
 	while (argP.atomicCounter->load() < argP.inputVec.size())
 		//	for (int i = 0; i < argP.interVec_size; ++i)
 	{
 		int oldValue = (*(argP.atomicCounter))++;    // This could cause index out of bounds
 		// TODO: Atomic counter is unused.
-//		(*(argP.atomicCounter))++;    // to avoid race conditions. TODO: mutex?
-//		signed int oldVal = argP.atomicCounter->load() - 1;
 		std::pair<K1 *, V1 *> currPair = argP.inputVec.at(oldValue);
 		//Debugging every Xth
-		if (oldValue % 300 == 0)
+		if (oldValue % 1000 == 0)
 		{
 			cout << LOG_PREFIX << "Mapping pair " << oldValue << " to thread " << argP.threadNum
 				 << endl;
 		}
 		argP.client->map(currPair.first, currPair.second, inter);
+		argP.jobContext->state.percentage = oldValue / (float) argP.inputVec.size()*100;
 	}
-	cout << LOG_PREFIX << "Done putting pairs into thread "<<argP.threadNum<<" which is now of "
-																		  "actual size " <<
+	cout << LOG_PREFIX << "Done putting pairs into thread " << argP.threadNum << " which is now of "
+																				 "actual size " <<
 		 inter->size() << endl;
 
+	// TODO: Check this:
 	std::sort(inter->begin(), inter->end());
+	cout << LOG_PREFIX << "Potentially done sorting." << endl;
 	argP.barrier->barrier(); // waiting for unlock
-
+	cout << LOG_PREFIX << "Thread " << argP.threadNum << " arrived at barrier." << endl;
 
 }
 
@@ -116,6 +122,7 @@ JobHandle startMapReduceJob(const MapReduceClient &client,
 	pthread_t threads[multiThreadLevel];    // TODO: Should we have multiple threadContexts or one?
 	cout << LOG_PREFIX << "Created threads structure with " << multiThreadLevel << " threads"
 		 << endl;
+	JobContext *jobContext = new JobContext(threads);
 	Barrier *barrier = new Barrier(multiThreadLevel);
 	int interSize = (int) inputVec.size() / multiThreadLevel;
 	cout << LOG_PREFIX << "Expected work load of each thread is ~" << interSize << endl;
@@ -123,7 +130,7 @@ JobHandle startMapReduceJob(const MapReduceClient &client,
 
 	for (int i = 0; i < multiThreadLevel; ++i)
 	{
-		ThreadContext *context = new ThreadContext(i, inputVec,
+		ThreadContext *context = new ThreadContext(jobContext, i, inputVec,
 												   i == 0 ? interSize + diff : interSize,
 												   atomic_counter, outputVec, &client,
 												   barrier);
@@ -132,7 +139,7 @@ JobHandle startMapReduceJob(const MapReduceClient &client,
 	}
 
 	cout << LOG_PREFIX << "Ended job" << endl << endl;
-	return new JobContext(threads);    // TODO: should threads be allocated with alloc?
+	return jobContext;    // TODO: should threads be allocated with alloc?
 }
 
 void waitForJob(JobHandle job)
