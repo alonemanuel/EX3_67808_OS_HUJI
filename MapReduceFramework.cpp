@@ -3,6 +3,7 @@
 #include <iostream>
 #include <utility>
 #include <algorithm>
+#include <semaphore.h>
 #include "MapReduceClient.h"
 #include "MapReduceFramework.h"
 #include "Barrier.h"
@@ -52,6 +53,8 @@ typedef struct ThreadContext
 	vector<pair<K1 *, V1 *>> inputVec;
 	// Intermediate vector.
 	vector<pair<K2 *, V2 *>> *interVec;
+	// Semaphore.
+	sem_t sem;
 	// Atomic counter.
 	std::atomic<int> *atomicCounter;
 	// Output vector.
@@ -63,10 +66,11 @@ typedef struct ThreadContext
 
 	// Ctor.
 	ThreadContext(JobContext *_jobContext, int _threadNum, std::vector<std::pair<K1 *, V1 *>>
-	_inputVec, std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>> _outputVec,
+	_inputVec, sem_t _sem, std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
+				  _outputVec,
 				  const MapReduceClient *_client, Barrier *_barrier) :
 			jobContext(_jobContext), threadNum(_threadNum), inputVec(std::move(_inputVec)),
-			interVec(new vector<pair<K2 *, V2 *>>()), atomicCounter(_atomicCounter),
+			interVec(new vector<pair<K2 *, V2 *>>()), sem(_sem), atomicCounter(_atomicCounter),
 			outputVec(std::move(_outputVec)), client(_client), barrier(_barrier)
 	{}
 
@@ -100,7 +104,6 @@ void threadMapReduce(void *arg)
 	while (argP.atomicCounter->load() < argP.inputVec.size())
 	{
 		int oldValue = (*(argP.atomicCounter))++;
-		// TODO: Atomic counter is unused.
 		std::pair<K1 *, V1 *> currPair = argP.inputVec.at(oldValue);
 		//Debugging every Xth
 		if (oldValue % 1000 == 0)
@@ -124,13 +127,37 @@ void threadMapReduce(void *arg)
 	cout << LOG_PREFIX << "Thread " << argP.threadNum << " arrived at barrier." << endl;
 	// Only the first thread does the shuffle phase.
 	auto *reduceQueue = new vector<vector<pair<K2 *, V2 *>>>();
+	// TODO: Handle semaphore error
+	// TODO: Maybe size - 1?
+
 	if (argP.threadNum == 0)
 	{
-		shuffle(argP.jobContext, reduceQueue);
+		shuffle(argP.jobContext, reduceQueue, &argP.sem);
 		cout << LOG_PREFIX << "Thread 0 done shuffling. reduceQueue has " << reduceQueue->size()
 			 << " elements." << endl;    // TODO: Apparently skipping one element.
 	}
 	argP.jobContext->state->stage = REDUCE_STAGE;
+
+	cout << LOG_PREFIX << "Starting reduce phase" << endl;
+
+	*argP.atomicCounter = 0;
+	while (argP.atomicCounter->load() < reduceQueue->size())
+	{
+		// TODO: Semaphor?
+		int oldValue = (*(argP.atomicCounter))++;
+		vector<pair<K2 *, V2 *>> currVec = reduceQueue.
+		std::pair<K1 *, V1 *> currPair = argP.inputVec.at(oldValue);
+		//Debugging every Xth
+		if (oldValue % 1000 == 0)
+		{
+			cout << LOG_PREFIX << "Mapping pair " << oldValue << " to thread " << argP.threadNum
+				 << endl;
+		}
+		// Map each pair.
+		argP.client->map(currPair.first, currPair.second, interVec);
+		// Update percentage.
+		argP.jobContext->state->percentage = oldValue / (float) argP.inputVec.size() * 100;
+	}
 // TODO: Reduce
 }
 
@@ -139,6 +166,11 @@ startMapReduceJob(const MapReduceClient &client, const InputVec &inputVec, Outpu
 				  int multiThreadLevel)
 {
 	cout << endl << LOG_PREFIX << "Starting job on input of size " << inputVec.size() << endl;
+	// TODO: should new be called on the semaphore?
+	sem_t sem;
+	sem_init(&sem, multiThreadLevel, 0);
+
+
 	// atomic counter to be used as input vec index.
 	auto *atomic_counter = new std::atomic<int>(0);
 	pthread_t threadArr[multiThreadLevel];
@@ -150,7 +182,7 @@ startMapReduceJob(const MapReduceClient &client, const InputVec &inputVec, Outpu
 		 << (int) inputVec.size() / multiThreadLevel << endl;
 	for (int i = 0; i < multiThreadLevel; ++i)
 	{
-		ThreadContext *context = new ThreadContext(jobContext, i, inputVec,
+		ThreadContext *context = new ThreadContext(jobContext, i, inputVec, sem,
 												   atomic_counter, outputVec, &client,
 												   barrier);
 		threads->push_back(*context);    // TODO: Should I pass pointer instead?
@@ -184,7 +216,7 @@ void closeJobHandle(JobHandle job)
 bool comparePtrToPair(pair<K2 *, V2 *> a, pair<K2 *, V2 *> b)
 { return a.first->operator<(*b.first); }
 
-void shuffle(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue)
+void shuffle(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue, sem_t *sem)
 {
 
 	// Throw all pairs into a single vector.
@@ -201,9 +233,10 @@ void shuffle(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue)
 	auto *currVec = new vector<pair<K2 *, V2 *>>();
 	while (!newInter->empty())
 	{
-		if (*currPair->first<*k2max)
+		if (*currPair->first < *k2max)
 		{
 			reduceQueue->push_back(*currVec);
+			sem_post(sem);
 			currVec = new vector<pair<K2 *, V2 *>>();
 			k2max = currPair->first;
 		}
