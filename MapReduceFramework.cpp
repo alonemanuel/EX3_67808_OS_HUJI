@@ -10,13 +10,18 @@
 
 using std::cout;
 using std::endl;
+using std::vector;
+using std::pair;
+typedef struct ThreadContext;
+
+void shuffle(ThreadContext *context);
 
 typedef struct JobContext
 {
-	pthread_t *threads;
+	vector<ThreadContext> *threads;
 	JobState state;
 
-	JobContext(pthread_t *_threads) : threads(_threads)
+	JobContext(vector<ThreadContext> *_threads) : threads(_threads)
 	{
 		state.stage = MAP_STAGE;
 		state.percentage = 0;
@@ -28,6 +33,7 @@ typedef struct ThreadContext
 	JobContext *jobContext;
 	int threadNum;
 	std::vector<std::pair<K1 *, V1 *>> inputVec;
+	vector<pair<K2 *, V2 *>> *interVec;
 	int interVec_size;
 	std::atomic<int> *atomicCounter;
 	std::vector<std::pair<K3 *, V3 *>> outputVec;
@@ -35,13 +41,13 @@ typedef struct ThreadContext
 	Barrier *barrier;
 
 	ThreadContext(JobContext *_jobContext, int _threadNum, std::vector<std::pair<K1 *, V1 *>>
-	_inputVec, int
-				  _interVec_size,
+	_inputVec, vector<pair<K2 *, V2 *>> *_interVec, int _interVec_size,
 				  std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
 				  _outputVec, const MapReduceClient *_client, Barrier *_barrier) :
 			jobContext(_jobContext),
 			threadNum(_threadNum), inputVec(
 			std::move(_inputVec)),
+			interVec(_interVec),
 			interVec_size(
 					_interVec_size),
 			atomicCounter(
@@ -81,9 +87,10 @@ void threadMapReduce(void *arg)
 
 	auto argP = *((ThreadContext *) arg);
 
-	auto *inter = new std::vector<std::pair<K2 *, V2 *>>();
 	cout << LOG_PREFIX << "Putting pairs into interVec" << endl;
-	argP.jobContext->state.stage = MAP_STAGE;
+	argP.jobContext->state.stage =
+			argP.jobContext->state.stage == UNDEFINED_STAGE ? MAP_STAGE : UNDEFINED_STAGE;
+	vector<pair<K2 *, V2 *>> *interVec = argP.interVec;
 	while (argP.atomicCounter->load() < argP.inputVec.size())
 		//	for (int i = 0; i < argP.interVec_size; ++i)
 	{
@@ -96,19 +103,26 @@ void threadMapReduce(void *arg)
 			cout << LOG_PREFIX << "Mapping pair " << oldValue << " to thread " << argP.threadNum
 				 << endl;
 		}
-		argP.client->map(currPair.first, currPair.second, inter);
-		argP.jobContext->state.percentage = oldValue / (float) argP.inputVec.size()*100;
+		argP.client->map(currPair.first, currPair.second, interVec);
+		argP.jobContext->state.percentage = oldValue / (float) argP.inputVec.size() * 100;
 	}
 	cout << LOG_PREFIX << "Done putting pairs into thread " << argP.threadNum << " which is now of "
 																				 "actual size " <<
-		 inter->size() << endl;
+		 interVec->size() << endl;
 
 	// TODO: Check this:
-	std::sort(inter->begin(), inter->end());
+	std::sort(interVec->begin(), interVec->end());
 	cout << LOG_PREFIX << "Potentially done sorting." << endl;
 	argP.barrier->barrier(); // waiting for unlock
 	cout << LOG_PREFIX << "Thread " << argP.threadNum << " arrived at barrier." << endl;
-
+	// Only the first thread does the shuffle phase.
+	if (argP.threadNum == 0)
+	{
+		shuffle(argP.jobContext);
+	}
+	argP.jobContext->state.stage =
+			argP.jobContext->state.stage == UNDEFINED_STAGE ? MAP_STAGE : UNDEFINED_STAGE;
+// TODO: Reduce
 }
 
 JobHandle startMapReduceJob(const MapReduceClient &client,
@@ -116,25 +130,25 @@ JobHandle startMapReduceJob(const MapReduceClient &client,
 							int multiThreadLevel)
 {
 	cout << endl << LOG_PREFIX << "Starting job on input of size " << inputVec.size() << endl;
-	std::atomic<int> *atomic_counter = new std::atomic<int>(0);    // atomic counter to be used
-// as input vec index.
-
-	pthread_t threads[multiThreadLevel];    // TODO: Should we have multiple threadContexts or one?
-	cout << LOG_PREFIX << "Created threads structure with " << multiThreadLevel << " threads"
-		 << endl;
-	JobContext *jobContext = new JobContext(threads);
-	Barrier *barrier = new Barrier(multiThreadLevel);
+	// atomic counter to be used as input vec index.
+	auto *atomic_counter = new std::atomic<int>(0);
+	pthread_t threadArr[multiThreadLevel];
+	auto *threads = new vector<ThreadContext>();
+	auto *jobContext = new JobContext(threads);
+	cout << LOG_PREFIX << "Created threads struct with " << multiThreadLevel << " threads" << endl;
+	auto *barrier = new Barrier(multiThreadLevel);
 	int interSize = (int) inputVec.size() / multiThreadLevel;
+	auto *interVec = new vector<pair<K2 *, V2 *>>();
 	cout << LOG_PREFIX << "Expected work load of each thread is ~" << interSize << endl;
 	int diff = (int) inputVec.size() - (interSize * multiThreadLevel);
-
 	for (int i = 0; i < multiThreadLevel; ++i)
 	{
-		ThreadContext *context = new ThreadContext(jobContext, i, inputVec,
+		ThreadContext *context = new ThreadContext(jobContext, i, inputVec, interVec,
 												   i == 0 ? interSize + diff : interSize,
 												   atomic_counter, outputVec, &client,
 												   barrier);
-		pthread_create(threads + i, nullptr, (void *(*)(void *)) threadMapReduce, context);
+		threads->push_back(*context);    // TODO: Should I pass pointer instead?
+		pthread_create(threadArr + i, nullptr, (void *(*)(void *)) threadMapReduce, context);
 		cout << LOG_PREFIX << "Created context and thread " << i << endl;
 	}
 
@@ -160,3 +174,47 @@ void getJobState(JobHandle job, JobState *state)
 
 void closeJobHandle(JobHandle job)
 {}
+
+K2 *findMaxK2(vector<ThreadContext> *threads)
+{
+	// TODO: Check null
+	K2 *maxK2 = (threads->front().)->first;
+	for (const ThreadContext &thread :*threads)
+	{
+		K2 *curr = thread.interVec->back().first;
+		if (curr > maxK2)
+		{
+			maxK2 = curr;
+		}
+	}
+	return maxK2;
+}
+
+void shuffle(JobContext *context)
+{
+	// Throw all pairs into a single vector.
+	auto newInter = new vector<pair<K2 *, V2 *>>();
+	for (ThreadContext tc:*context->threads)
+	{
+		newInter->insert(newInter->begin(), tc.interVec->begin(), tc.interVec->end());
+	}
+	std::sort(newInter->begin(), newInter->end());
+
+	vector *reduceQueue = new vector<vector<pair<K2 *, V2 *>>>();
+	// Go over all pairs.
+	K2 *k2max = newInter->back().first;
+	pair<K2 *, V2 *> *currPair = &newInter->back();
+	vector<pair<K2 *, V2 *>> *currVec = new vector();
+	while (!newInter->empty())
+	{
+		if (currPair->first != k2max)
+		{
+			reduceQueue->push_back(currVec);
+			currVec = new vector();
+			k2max = currPair->first;
+		}
+		currVec->push_back(*currPair);
+		newInter->pop_back();
+		currPair = &newInter->back();
+	}
+}
