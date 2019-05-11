@@ -27,6 +27,8 @@ utility
 -
 algorithm
 -
+semaphore.h
+-
 MapReduceClient.h
 /cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceClient.h
 MapReduceFramework.h

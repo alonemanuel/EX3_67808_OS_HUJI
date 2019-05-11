@@ -19,6 +19,9 @@ typedef struct JobContext;
 
 void shuffle(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue);
 
+bool comparePtrToPair(pair<K2 *, V2 *> a, pair<K2 *, V2 *> b)
+{ return a.first->operator<(*b.first); }
+
 /**
  * @brief Context of a job.
  */
@@ -54,7 +57,7 @@ typedef struct ThreadContext
 	// Intermediate vector.
 	vector<pair<K2 *, V2 *>> *interVec;
 	// Semaphore.
-	sem_t sem;
+	sem_t *sem;
 	// Atomic counter.
 	std::atomic<int> *atomicCounter;
 	// Output vector.
@@ -66,7 +69,7 @@ typedef struct ThreadContext
 
 	// Ctor.
 	ThreadContext(JobContext *_jobContext, int _threadNum, std::vector<std::pair<K1 *, V1 *>>
-	_inputVec, sem_t _sem, std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
+	_inputVec, sem_t *_sem, std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
 				  _outputVec,
 				  const MapReduceClient *_client, Barrier *_barrier) :
 			jobContext(_jobContext), threadNum(_threadNum), inputVec(std::move(_inputVec)),
@@ -90,75 +93,85 @@ void emit3(K3 *key, V3 *value, void *context)
 
 }
 
+void mapPhase(ThreadContext *context)
+{
+	cout << LOG_PREFIX << "Starting map phase for thread " << context->threadNum << endl;
+	context->jobContext->state->stage = MAP_STAGE;
+	vector<pair<K2 *, V2 *>> *interVec = context->interVec;
+	// Use atomic to avoid race conditions.
+	while (context->atomicCounter->load() < context->inputVec.size())
+	{
+		int oldValue = (*(context->atomicCounter))++;
+		std::pair<K1 *, V1 *> currPair = context->inputVec.at(oldValue);
+		// Map each pair.
+		context->client->map(currPair.first, currPair.second, interVec);
+		// Update percentage.
+		context->jobContext->state->percentage = oldValue / (float) context->inputVec.size() * 100;
+	}
+}
+
+void sortPhase(ThreadContext *context)
+{
+	std::sort(context->interVec->begin(), context->interVec->end(), comparePtrToPair);
+}
+
+void shufflePhase(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue, sem_t *sem)
+{
+	cout << LOG_PREFIX << "Starting shuffle phase." << endl;
+	context->state->stage = REDUCE_STAGE;
+
+	// Throw all pairs into a single vector.
+	auto *newInter = new vector<pair<K2 *, V2 *>>();
+	for (ThreadContext tc:*context->threads)
+	{
+		newInter->insert(newInter->begin(), tc.interVec->begin(), tc.interVec->end());
+	}
+	std::sort(newInter->begin(), newInter->end(), comparePtrToPair);
+
+	// Go over all pairs.
+	K2 *k2max = newInter->back().first;
+	pair<K2 *, V2 *> *currPair = &newInter->back();
+	auto *currVec = new vector<pair<K2 *, V2 *>>();
+	while (!newInter->empty())
+	{
+		if (*currPair->first < *k2max)
+		{
+			reduceQueue->push_back(*currVec);
+			sem_post(sem);
+			currVec = new vector<pair<K2 *, V2 *>>();
+			k2max = currPair->first;
+		}
+		currVec->push_back(*currPair);
+		newInter->pop_back();
+		currPair = &newInter->back();
+	}
+}
+
+void reducePhase(ThreadContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue)
+{
+
+	while (!reduceQueue->empty())
+	{
+		sem_wait(context->sem);
+	}
+
+
+}
+
 /**
  * @brief The main function of each thread.
  */
-void threadMapReduce(void *arg)
+void threadMapReduce(ThreadContext *context)
 {
-	// Unpack arg.
-	auto argP = *((ThreadContext *) arg);
-	cout << LOG_PREFIX << "Putting pairs into interVec" << endl;
-	argP.jobContext->state->stage = MAP_STAGE;
-	vector<pair<K2 *, V2 *>> *interVec = argP.interVec;
-	// Use atomic to avoid race conditions.
-	while (argP.atomicCounter->load() < argP.inputVec.size())
-	{
-		int oldValue = (*(argP.atomicCounter))++;
-		std::pair<K1 *, V1 *> currPair = argP.inputVec.at(oldValue);
-		//Debugging every Xth
-		if (oldValue % 1000 == 0)
-		{
-			cout << LOG_PREFIX << "Mapping pair " << oldValue << " to thread " << argP.threadNum
-				 << endl;
-		}
-		// Map each pair.
-		argP.client->map(currPair.first, currPair.second, interVec);
-		// Update percentage.
-		argP.jobContext->state->percentage = oldValue / (float) argP.inputVec.size() * 100;
-	}
-	cout << LOG_PREFIX << "Done putting pairs into thread " << argP.threadNum << " which is now of "
-																				 "actual size "
-		 << interVec->size() << endl;
-
-	// TODO: Check this:
-	std::sort(interVec->begin(), interVec->end());
-	cout << LOG_PREFIX << "Potentially done sorting." << endl;
-	argP.barrier->barrier(); // waiting for unlock
-	cout << LOG_PREFIX << "Thread " << argP.threadNum << " arrived at barrier." << endl;
-	// Only the first thread does the shuffle phase.
+	mapPhase(context);
+	sortPhase(context);
+	context->barrier->barrier(); // waiting for unlock. TODO: Check this.
 	auto *reduceQueue = new vector<vector<pair<K2 *, V2 *>>>();
-	// TODO: Handle semaphore error
-	// TODO: Maybe size - 1?
-
-	if (argP.threadNum == 0)
+	if (context->threadNum == 0)
 	{
-		shuffle(argP.jobContext, reduceQueue, &argP.sem);
-		cout << LOG_PREFIX << "Thread 0 done shuffling. reduceQueue has " << reduceQueue->size()
-			 << " elements." << endl;    // TODO: Apparently skipping one element.
+		shufflePhase(context->jobContext, reduceQueue, context->sem);
 	}
-	argP.jobContext->state->stage = REDUCE_STAGE;
-
-	cout << LOG_PREFIX << "Starting reduce phase" << endl;
-
-	*argP.atomicCounter = 0;
-	while (argP.atomicCounter->load() < reduceQueue->size())
-	{
-		// TODO: Semaphor?
-		int oldValue = (*(argP.atomicCounter))++;
-		vector<pair<K2 *, V2 *>> currVec = reduceQueue.
-		std::pair<K1 *, V1 *> currPair = argP.inputVec.at(oldValue);
-		//Debugging every Xth
-		if (oldValue % 1000 == 0)
-		{
-			cout << LOG_PREFIX << "Mapping pair " << oldValue << " to thread " << argP.threadNum
-				 << endl;
-		}
-		// Map each pair.
-		argP.client->map(currPair.first, currPair.second, interVec);
-		// Update percentage.
-		argP.jobContext->state->percentage = oldValue / (float) argP.inputVec.size() * 100;
-	}
-// TODO: Reduce
+	reducePhase(context, reduceQueue);
 }
 
 JobHandle
@@ -167,8 +180,8 @@ startMapReduceJob(const MapReduceClient &client, const InputVec &inputVec, Outpu
 {
 	cout << endl << LOG_PREFIX << "Starting job on input of size " << inputVec.size() << endl;
 	// TODO: should new be called on the semaphore?
-	sem_t sem;
-	sem_init(&sem, multiThreadLevel, 0);
+	sem_t *sem=new sem_t();
+	sem_init(sem, multiThreadLevel, 0);
 
 
 	// atomic counter to be used as input vec index.
@@ -212,36 +225,3 @@ void getJobState(JobHandle job, JobState *state)
 
 void closeJobHandle(JobHandle job)
 {}
-
-bool comparePtrToPair(pair<K2 *, V2 *> a, pair<K2 *, V2 *> b)
-{ return a.first->operator<(*b.first); }
-
-void shuffle(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue, sem_t *sem)
-{
-
-	// Throw all pairs into a single vector.
-	auto *newInter = new vector<pair<K2 *, V2 *>>();
-	for (ThreadContext tc:*context->threads)
-	{
-		newInter->insert(newInter->begin(), tc.interVec->begin(), tc.interVec->end());
-	}
-	std::sort(newInter->begin(), newInter->end(), comparePtrToPair);
-
-	// Go over all pairs.
-	K2 *k2max = newInter->back().first;
-	pair<K2 *, V2 *> *currPair = &newInter->back();
-	auto *currVec = new vector<pair<K2 *, V2 *>>();
-	while (!newInter->empty())
-	{
-		if (*currPair->first < *k2max)
-		{
-			reduceQueue->push_back(*currVec);
-			sem_post(sem);
-			currVec = new vector<pair<K2 *, V2 *>>();
-			k2max = currPair->first;
-		}
-		currVec->push_back(*currPair);
-		newInter->pop_back();
-		currPair = &newInter->back();
-	}
-}
