@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Barrier.cpp" "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/Ex3.dir/Barrier.cpp.o"
-  "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/MapReduceFramework.cpp" "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/Ex3.dir/MapReduceFramework.cpp.o"
-  "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/SampleClient.cpp" "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/Ex3.dir/SampleClient.cpp.o"
-  "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/Tests/Tarantino/WordFrequencies.cpp" "/cygdrive/e/alon_emanuel_drive/School/Year2/Semester2/67808_OS/Exercises/Ex3/cmake-build-debug/CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o"
+  "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/Barrier.cpp" "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/cmake-build-debug/CMakeFiles/ex3.dir/Barrier.cpp.obj"
+  "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/MapReduceFramework.cpp" "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/cmake-build-debug/CMakeFiles/ex3.dir/MapReduceFramework.cpp.obj"
+  "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/SampleClient.cpp" "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/cmake-build-debug/CMakeFiles/ex3.dir/SampleClient.cpp.obj"
+  "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/Tests/Tarantino/WordFrequencies.cpp" "C:/Users/kalir/Desktop/Univ/Year 2/Semester B/OS/ex3-67808-os-huji/cmake-build-debug/CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

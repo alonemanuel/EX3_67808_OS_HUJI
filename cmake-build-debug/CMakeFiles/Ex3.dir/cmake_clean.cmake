@@ -1,14 +1,15 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Ex3.dir/MapReduceFramework.cpp.o"
-  "CMakeFiles/Ex3.dir/SampleClient.cpp.o"
-  "CMakeFiles/Ex3.dir/Barrier.cpp.o"
-  "CMakeFiles/Ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o"
-  "Ex3.pdb"
-  "Ex3.exe"
-  "libEx3.dll.a"
+  "CMakeFiles/ex3.dir/MapReduceFramework.cpp.obj"
+  "CMakeFiles/ex3.dir/SampleClient.cpp.obj"
+  "CMakeFiles/ex3.dir/Barrier.cpp.obj"
+  "CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.obj"
+  "ex3.pdb"
+  "ex3.exe"
+  "ex3.exe.manifest"
+  "libex3.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
 foreach(lang CXX)
-  include(CMakeFiles/Ex3.dir/cmake_clean_${lang}.cmake OPTIONAL)
+  include(CMakeFiles/ex3.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

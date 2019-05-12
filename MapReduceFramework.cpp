@@ -14,34 +14,11 @@ using std::endl;
 using std::vector;
 using std::pair;
 
-typedef struct ThreadContext;
-typedef struct JobContext;
-
-void shuffle(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue);
+struct JobContext;
+struct ThreadContext;
 
 bool comparePtrToPair(pair<K2 *, V2 *> a, pair<K2 *, V2 *> b)
 { return a.first->operator<(*b.first); }
-
-/**
- * @brief Context of a job.
- */
-typedef struct JobContext
-{
-	// Vector of threads alive within this job.
-	vector<ThreadContext> *threads;
-	// State of the current job.
-	JobState *state;
-
-	// Ctor for a JobContext instance. Receives _threads as pointer.
-	JobContext(vector<ThreadContext> *_threads) : threads(_threads)
-	{
-		// Inits state.
-		state = new JobState();
-		// Sets state.
-		state->stage = UNDEFINED_STAGE;
-		state->percentage = 0;
-	}
-} JobContext;
 
 /**
  * @brief Context of a thread.
@@ -66,31 +43,68 @@ typedef struct ThreadContext
 	const MapReduceClient *client;
 	// Barrier.
 	Barrier *barrier;
+	// Mutex.
+	pthread_mutex_t *mutex;
 
 	// Ctor.
 	ThreadContext(JobContext *_jobContext, int _threadNum, std::vector<std::pair<K1 *, V1 *>>
-	_inputVec, sem_t *_sem, std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
-				  _outputVec,
-				  const MapReduceClient *_client, Barrier *_barrier) :
-			jobContext(_jobContext), threadNum(_threadNum), inputVec(std::move(_inputVec)),
-			interVec(new vector<pair<K2 *, V2 *>>()), sem(_sem), atomicCounter(_atomicCounter),
-			outputVec(std::move(_outputVec)), client(_client), barrier(_barrier)
+	        _inputVec, sem_t *_sem, std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
+	            _outputVec, const MapReduceClient *_client, Barrier *_barrier, pthread_mutex_t* _mutex) :
+			    jobContext(_jobContext), threadNum(_threadNum), inputVec(std::move(_inputVec)),
+			    interVec(new vector<pair<K2 *, V2 *>>()), sem(_sem), atomicCounter(_atomicCounter),
+			    outputVec(std::move(_outputVec)), client(_client), barrier(_barrier), mutex(_mutex)
 	{}
 
 } ThreadContext;
+
+/**
+ * @brief Context of a job.
+ */
+typedef struct JobContext
+{
+    // Vector of threads alive within this job.
+    vector<ThreadContext> *threads{};
+    // State of the current job.
+    JobState *state;
+
+    // Ctor for a JobContext instance. Receives _threads as pointer.
+    JobContext(vector<ThreadContext> *_threads) : threads(_threads)
+    {
+        // Inits state.
+        state = new JobState();
+        // Sets state.
+        state->stage = UNDEFINED_STAGE;
+        state->percentage = 0;
+    }
+
+    ~JobContext() {
+        if(!threads->empty()){
+            delete threads->back().barrier;
+            delete threads->back().mutex;
+            delete threads->back().atomicCounter;
+            delete threads->back().sem;
+        }
+        for (ThreadContext &thread: *threads) {
+            delete thread.interVec;
+        }
+        delete[] threads;
+    }
+} JobContext;
+
 
 /**
  * @brief Emits pairs into context = intermediate vector.
  */
 void emit2(K2 *key, V2 *value, void *context)
 {
-	auto *contextP = (vector<pair<K2 *, V2 *>> *) context;    // contextP = interVec
-	contextP->push_back(*(new pair<K2 *, V2 *>(key, value)));
+	auto *interVec = (vector<pair<K2 *, V2 *>> *) context;
+	interVec->push_back(*(new pair<K2 *, V2 *>(key, value)));
 }
 
 void emit3(K3 *key, V3 *value, void *context)
 {
-
+    auto curr_context = (ThreadContext *) context;
+    curr_context->outputVec.push_back(*(new pair<K3 *, V3 *>(key, value)));
 }
 
 void mapPhase(ThreadContext *context)
@@ -98,15 +112,16 @@ void mapPhase(ThreadContext *context)
 	cout << LOG_PREFIX << "Starting map phase for thread " << context->threadNum << endl;
 	context->jobContext->state->stage = MAP_STAGE;
 	vector<pair<K2 *, V2 *>> *interVec = context->interVec;
+    int oldValue;
 	// Use atomic to avoid race conditions.
 	while (context->atomicCounter->load() < context->inputVec.size())
 	{
-		int oldValue = (*(context->atomicCounter))++;
-		std::pair<K1 *, V1 *> currPair = context->inputVec.at(oldValue);
+		oldValue = (*(context->atomicCounter))++;
+		std::pair<K1 *, V1 *> currPair = context->inputVec.at(static_cast<unsigned int>(oldValue));
 		// Map each pair.
 		context->client->map(currPair.first, currPair.second, interVec);
 		// Update percentage.
-		context->jobContext->state->percentage = oldValue / (float) context->inputVec.size() * 100;
+		context->jobContext->state->percentage = ((oldValue + 1) / (float) context->inputVec.size() * 100);
 	}
 }
 
@@ -115,14 +130,14 @@ void sortPhase(ThreadContext *context)
 	std::sort(context->interVec->begin(), context->interVec->end(), comparePtrToPair);
 }
 
-void shufflePhase(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue, sem_t *sem)
+void shufflePhase(vector<vector<pair<K2 *, V2 *>>> *reduceQueue, ThreadContext *context)
 {
-	cout << LOG_PREFIX << "Starting shuffle phase." << endl;
-	context->state->stage = REDUCE_STAGE;
+    context->jobContext->state->stage = REDUCE_STAGE;
+    cout << LOG_PREFIX << "Starting shuffle phase." << endl;
 
 	// Throw all pairs into a single vector.
 	auto *newInter = new vector<pair<K2 *, V2 *>>();
-	for (ThreadContext tc:*context->threads)
+	for (ThreadContext tc:*context->jobContext->threads)
 	{
 		newInter->insert(newInter->begin(), tc.interVec->begin(), tc.interVec->end());
 	}
@@ -136,8 +151,16 @@ void shufflePhase(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQ
 	{
 		if (*currPair->first < *k2max)
 		{
+            if (pthread_mutex_lock(context->mutex) != 0) {
+                fprintf(stderr, "Shuffle: error on pthread_mutex_lock");
+                exit(1);
+            }
 			reduceQueue->push_back(*currVec);
-			sem_post(sem);
+			sem_post(context->sem);
+            if (pthread_mutex_unlock(context->mutex) != 0) {
+                fprintf(stderr, "Shuffle: error on pthread_mutex_unlock");
+                exit(1);
+            }
 			currVec = new vector<pair<K2 *, V2 *>>();
 			k2max = currPair->first;
 		}
@@ -147,15 +170,30 @@ void shufflePhase(JobContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQ
 	}
 }
 
-void reducePhase(ThreadContext *context, vector<vector<pair<K2 *, V2 *>>> *reduceQueue)
+void reducePhase(vector<vector<pair<K2 *, V2 *>>> *reduceQueue, int reduceSize, ThreadContext *context)
 {
-
 	while (!reduceQueue->empty())
 	{
 		sem_wait(context->sem);
-	}
 
+        if (pthread_mutex_lock(context->mutex) != 0) {
+            fprintf(stderr, "Reduce: error on pthread_mutex_lock");
+            exit(1);
+        }
 
+        if (!reduceQueue->empty()) {
+            context->client->reduce(&reduceQueue->back(), context);
+            reduceQueue->pop_back();
+            context->jobContext->state->percentage = (float) reduceSize / reduceQueue->size() * 100;
+        } else {
+            sem_post(context->sem);
+        }
+
+        if (pthread_mutex_unlock(context->mutex) != 0) {
+            fprintf(stderr, "Reduce: error on pthread_mutex_lock");
+            exit(1);
+        }
+    }
 }
 
 /**
@@ -169,20 +207,18 @@ void threadMapReduce(ThreadContext *context)
 	auto *reduceQueue = new vector<vector<pair<K2 *, V2 *>>>();
 	if (context->threadNum == 0)
 	{
-		shufflePhase(context->jobContext, reduceQueue, context->sem);
+		shufflePhase(reduceQueue, context);
 	}
-	reducePhase(context, reduceQueue);
+	reducePhase(reduceQueue, reduceQueue->size(), context);
 }
 
-JobHandle
-startMapReduceJob(const MapReduceClient &client, const InputVec &inputVec, OutputVec &outputVec,
+JobHandle startMapReduceJob(const MapReduceClient &client, const InputVec &inputVec, OutputVec &outputVec,
 				  int multiThreadLevel)
 {
 	cout << endl << LOG_PREFIX << "Starting job on input of size " << inputVec.size() << endl;
 	// TODO: should new be called on the semaphore?
-	sem_t *sem=new sem_t();
+    auto *sem = new sem_t();
 	sem_init(sem, multiThreadLevel, 0);
-
 
 	// atomic counter to be used as input vec index.
 	auto *atomic_counter = new std::atomic<int>(0);
@@ -193,11 +229,12 @@ startMapReduceJob(const MapReduceClient &client, const InputVec &inputVec, Outpu
 	auto *barrier = new Barrier(multiThreadLevel);
 	cout << LOG_PREFIX << "Expected work load of each thread is ~"
 		 << (int) inputVec.size() / multiThreadLevel << endl;
+    auto *mutex = new pthread_mutex_t(PTHREAD_MUTEX_INITIALIZER);
 	for (int i = 0; i < multiThreadLevel; ++i)
 	{
 		ThreadContext *context = new ThreadContext(jobContext, i, inputVec, sem,
 												   atomic_counter, outputVec, &client,
-												   barrier);
+												   barrier, mutex);
 		threads->push_back(*context);    // TODO: Should I pass pointer instead?
 		pthread_create(threadArr + i, nullptr, (void *(*)(void *)) threadMapReduce, context);
 		cout << LOG_PREFIX << "Created context and thread " << i << endl;
@@ -219,9 +256,13 @@ void waitForJob(JobHandle job)
 
 void getJobState(JobHandle job, JobState *state)
 {
-	JobContext *jc = (JobContext *) job;
+    auto *jc = (JobContext *) job;
 	*state = *jc->state;
 }
 
 void closeJobHandle(JobHandle job)
-{}
+{
+    waitForJob(job);
+    auto jobContext = (JobContext *) job;
+    delete jobContext;
+}
