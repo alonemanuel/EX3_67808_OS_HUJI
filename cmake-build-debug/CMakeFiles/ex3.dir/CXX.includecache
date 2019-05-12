@@ -6,59 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Barrier.h
-pthread.h
--
-
 /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h
 vector
 -
 utility
 -
 
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.cpp
-pthread.h
--
-atomic
--
-iostream
--
-utility
--
-algorithm
--
-semaphore.h
--
-MapReduceClient.h
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h
-MapReduceFramework.h
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.h
-Barrier.h
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Barrier.h
-Tests/Tarantino/WordFrequenciesClient.hpp
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp
-
 /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.h
 MapReduceClient.h
 /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h
 
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp
-WordFrequenciesClient.hpp
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp
-algorithm
--
-
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp
-fstream
+/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/eurovisionClient.cpp
+cstdio
 -
 iostream
 -
 sstream
 -
-unistd.h
+array
 -
-../../MapReduceClient.h
-/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h
-../../MapReduceFramework.h
+fstream
+-
+vector
+-
+../MapReduceFramework.h
 /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.h
 

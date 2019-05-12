@@ -14,8 +14,7 @@ CMakeFiles/ex3.dir/SampleClient.cpp.o: ../MapReduceClient.h
 CMakeFiles/ex3.dir/SampleClient.cpp.o: ../MapReduceFramework.h
 CMakeFiles/ex3.dir/SampleClient.cpp.o: ../SampleClient.cpp
 
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o: ../MapReduceClient.h
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o: ../MapReduceFramework.h
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o: ../Tests/Tarantino/WordFrequencies.cpp
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o: ../Tests/Tarantino/WordFrequenciesClient.hpp
+CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o: ../MapReduceClient.h
+CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o: ../MapReduceFramework.h
+CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o: ../Tests/eurovisionClient.cpp
 

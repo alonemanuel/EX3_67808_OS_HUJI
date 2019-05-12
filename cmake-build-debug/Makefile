@@ -204,32 +204,32 @@ SampleClient.cpp.s:
 	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/SampleClient.cpp.s
 .PHONY : SampleClient.cpp.s
 
-Tests/Tarantino/WordFrequencies.o: Tests/Tarantino/WordFrequencies.cpp.o
+Tests/eurovisionClient.o: Tests/eurovisionClient.cpp.o
 
-.PHONY : Tests/Tarantino/WordFrequencies.o
+.PHONY : Tests/eurovisionClient.o
 
 # target to build an object file
-Tests/Tarantino/WordFrequencies.cpp.o:
-	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o
-.PHONY : Tests/Tarantino/WordFrequencies.cpp.o
+Tests/eurovisionClient.cpp.o:
+	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o
+.PHONY : Tests/eurovisionClient.cpp.o
 
-Tests/Tarantino/WordFrequencies.i: Tests/Tarantino/WordFrequencies.cpp.i
+Tests/eurovisionClient.i: Tests/eurovisionClient.cpp.i
 
-.PHONY : Tests/Tarantino/WordFrequencies.i
+.PHONY : Tests/eurovisionClient.i
 
 # target to preprocess a source file
-Tests/Tarantino/WordFrequencies.cpp.i:
-	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.i
-.PHONY : Tests/Tarantino/WordFrequencies.cpp.i
+Tests/eurovisionClient.cpp.i:
+	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.i
+.PHONY : Tests/eurovisionClient.cpp.i
 
-Tests/Tarantino/WordFrequencies.s: Tests/Tarantino/WordFrequencies.cpp.s
+Tests/eurovisionClient.s: Tests/eurovisionClient.cpp.s
 
-.PHONY : Tests/Tarantino/WordFrequencies.s
+.PHONY : Tests/eurovisionClient.s
 
 # target to generate assembly for a file
-Tests/Tarantino/WordFrequencies.cpp.s:
-	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.s
-.PHONY : Tests/Tarantino/WordFrequencies.cpp.s
+Tests/eurovisionClient.cpp.s:
+	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.s
+.PHONY : Tests/eurovisionClient.cpp.s
 
 # Help Target
 help:
@@ -249,9 +249,9 @@ help:
 	@echo "... SampleClient.o"
 	@echo "... SampleClient.i"
 	@echo "... SampleClient.s"
-	@echo "... Tests/Tarantino/WordFrequencies.o"
-	@echo "... Tests/Tarantino/WordFrequencies.i"
-	@echo "... Tests/Tarantino/WordFrequencies.s"
+	@echo "... Tests/eurovisionClient.o"
+	@echo "... Tests/eurovisionClient.i"
+	@echo "... Tests/eurovisionClient.s"
 .PHONY : help
 
 

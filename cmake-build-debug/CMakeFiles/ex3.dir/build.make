@@ -96,25 +96,25 @@ CMakeFiles/ex3.dir/Barrier.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex3.dir/Barrier.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Barrier.cpp -o CMakeFiles/ex3.dir/Barrier.cpp.s
 
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o: CMakeFiles/ex3.dir/flags.make
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o: ../Tests/Tarantino/WordFrequencies.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o -c /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp
+CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o: CMakeFiles/ex3.dir/flags.make
+CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o: ../Tests/eurovisionClient.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o -c /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/eurovisionClient.cpp
 
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp > CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.i
+CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/eurovisionClient.cpp > CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.i
 
-CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp -o CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.s
+CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/eurovisionClient.cpp -o CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.s
 
 # Object files for target ex3
 ex3_OBJECTS = \
 "CMakeFiles/ex3.dir/MapReduceFramework.cpp.o" \
 "CMakeFiles/ex3.dir/SampleClient.cpp.o" \
 "CMakeFiles/ex3.dir/Barrier.cpp.o" \
-"CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o"
+"CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o"
 
 # External object files for target ex3
 ex3_EXTERNAL_OBJECTS =
@@ -122,7 +122,7 @@ ex3_EXTERNAL_OBJECTS =
 ex3: CMakeFiles/ex3.dir/MapReduceFramework.cpp.o
 ex3: CMakeFiles/ex3.dir/SampleClient.cpp.o
 ex3: CMakeFiles/ex3.dir/Barrier.cpp.o
-ex3: CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o
+ex3: CMakeFiles/ex3.dir/Tests/eurovisionClient.cpp.o
 ex3: CMakeFiles/ex3.dir/build.make
 ex3: CMakeFiles/ex3.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable ex3"

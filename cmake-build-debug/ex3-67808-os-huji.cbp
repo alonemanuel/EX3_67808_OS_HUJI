@@ -102,10 +102,7 @@
 		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/SampleClient.cpp">
 			<Option target="ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp">
-			<Option target="ex3"/>
-		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp">
+		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/eurovisionClient.cpp">
 			<Option target="ex3"/>
 		</Unit>
 		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/CMakeLists.txt">
