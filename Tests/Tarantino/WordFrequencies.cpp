@@ -101,7 +101,7 @@ public:
 		unsigned int maxLength = 0;
 		for (auto &frequencie : output)
 		{
-			auto length = static_cast<unsigned int>((*(Word *) frequencie.first).getWord().length());
+            auto length = static_cast<unsigned int>((*(Word *) frequencie.first).getWord().length());
 			maxLength = length > maxLength ? length : maxLength;
 		}
 
@@ -148,8 +148,8 @@ int main()
 	vector<string> paths;
 
 	paths.emplace_back(SCRIPTS_DIR + "Inglourious_Basterds");
-//    paths.emplace_back(SCRIPTS_DIR + "Reservoir_Dogs");
-//    paths.emplace_back(SCRIPTS_DIR + "Pulp_Fiction");
+    paths.emplace_back(SCRIPTS_DIR + "Reservoir_Dogs");
+    paths.emplace_back(SCRIPTS_DIR + "Pulp_Fiction");
 
 	// Generate jobs
 	jobs.reserve(paths.size());
@@ -186,11 +186,11 @@ int main()
 		waitForJob(job->handle);
 	}
 
-	// Write output
-	for (auto job :jobs)
+    // Write output
+    for (auto job :jobs)
 	{
-		job->writeByFrequency();
-	}
+        job->writeByFrequency();
+    }
 
 	// Kill
 	for (auto job :jobs)

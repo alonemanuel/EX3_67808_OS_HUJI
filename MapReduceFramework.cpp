@@ -30,7 +30,7 @@ typedef struct ThreadContext
 	// Number of thread given upon initialization.
 	int threadNum;
 	// Input vector given by client.
-	vector<pair<K1 *, V1 *>> inputVec;
+	InputVec *inputVec;
 	// Intermediate vector.
 	vector<pair<K2 *, V2 *>> *interVec;
 	// Semaphore.
@@ -38,7 +38,7 @@ typedef struct ThreadContext
 	// Atomic counter.
 	std::atomic<int> *atomicCounter;
 	// Output vector.
-	vector<pair<K3 *, V3 *>> outputVec;
+	OutputVec *outputVec;
 	// Client.
 	const MapReduceClient *client;
 	// Barrier.
@@ -47,12 +47,12 @@ typedef struct ThreadContext
 	pthread_mutex_t *mutex;
 
 	// Ctor.
-	ThreadContext(JobContext *_jobContext, int _threadNum, std::vector<std::pair<K1 *, V1 *>>
-	        _inputVec, sem_t *_sem, std::atomic<int> *_atomicCounter, std::vector<std::pair<K3 *, V3 *>>
-	            _outputVec, const MapReduceClient *_client, Barrier *_barrier, pthread_mutex_t* _mutex) :
-			    jobContext(_jobContext), threadNum(_threadNum), inputVec(std::move(_inputVec)),
-			    interVec(new vector<pair<K2 *, V2 *>>()), sem(_sem), atomicCounter(_atomicCounter),
-			    outputVec(std::move(_outputVec)), client(_client), barrier(_barrier), mutex(_mutex)
+	ThreadContext(JobContext *_jobContext, int _threadNum, InputVec * _inputVec, sem_t *_sem,
+	        std::atomic<int> *_atomicCounter, OutputVec * _outputVec, const MapReduceClient *_client,
+	        Barrier *_barrier, pthread_mutex_t* _mutex) :
+			    jobContext(_jobContext), threadNum(_threadNum), inputVec(_inputVec),
+			    interVec(new vector<IntermediatePair>()), sem(_sem), atomicCounter(_atomicCounter),
+			    outputVec(_outputVec), client(_client), barrier(_barrier), mutex(_mutex)
 	{}
 
 } ThreadContext;
@@ -84,10 +84,7 @@ typedef struct JobContext
             delete threads->back().atomicCounter;
             delete threads->back().sem;
         }
-        for (ThreadContext &thread: *threads) {
-            delete thread.interVec;
-        }
-        delete[] threads;
+        delete threads;
     }
 } JobContext;
 
@@ -104,7 +101,8 @@ void emit2(K2 *key, V2 *value, void *context)
 void emit3(K3 *key, V3 *value, void *context)
 {
     auto curr_context = (ThreadContext *) context;
-    curr_context->outputVec.push_back(*(new pair<K3 *, V3 *>(key, value)));
+    auto p = OutputPair(key, value);
+    curr_context->outputVec->push_back(p);
 }
 
 void mapPhase(ThreadContext *context)
@@ -114,14 +112,14 @@ void mapPhase(ThreadContext *context)
 	vector<pair<K2 *, V2 *>> *interVec = context->interVec;
     int oldValue;
 	// Use atomic to avoid race conditions.
-	while (context->atomicCounter->load() < context->inputVec.size())
+	while (context->atomicCounter->load() < context->inputVec->size())
 	{
 		oldValue = (*(context->atomicCounter))++;
-		std::pair<K1 *, V1 *> currPair = context->inputVec.at(static_cast<unsigned int>(oldValue));
+		std::pair<K1 *, V1 *> currPair = context->inputVec->at(static_cast<unsigned int>(oldValue));
 		// Map each pair.
 		context->client->map(currPair.first, currPair.second, interVec);
 		// Update percentage.
-		context->jobContext->state->percentage = ((oldValue + 1) / (float) context->inputVec.size() * 100);
+		context->jobContext->state->percentage = ((oldValue + 1) / (float) context->inputVec->size() * 100);
 	}
 }
 
@@ -184,7 +182,7 @@ void reducePhase(vector<vector<pair<K2 *, V2 *>>> *reduceQueue, int reduceSize, 
         if (!reduceQueue->empty()) {
             context->client->reduce(&reduceQueue->back(), context);
             reduceQueue->pop_back();
-            context->jobContext->state->percentage = (float) reduceSize / reduceQueue->size() * 100;
+            context->jobContext->state->percentage = (reduceSize - reduceQueue->size()) / (float) reduceSize * 100;
         } else {
             sem_post(context->sem);
         }
@@ -239,19 +237,15 @@ JobHandle startMapReduceJob(const MapReduceClient &client, const InputVec &input
 		pthread_create(threadArr + i, nullptr, (void *(*)(void *)) threadMapReduce, context);
 		cout << LOG_PREFIX << "Created context and thread " << i << endl;
 	}
-
-	cout << LOG_PREFIX << "Ended job" << endl << endl;
 	return jobContext;    // TODO: should threads be allocated with alloc?
 }
 
 void waitForJob(JobHandle job)
 {
-	auto *jobContext = (JobContext *) job;
-	while (jobContext->state->stage != REDUCE_STAGE || jobContext->state->percentage < 100)
+    auto *jobContext = (JobContext *) job;
+    while (jobContext->state->stage != REDUCE_STAGE || jobContext->state->percentage < 100)
 	{
-		std::cout << "Waiting...";    // TODO: Remove this.
-	}
-	// TODO: to reduce *OVERHEAD*, maybe actually wait()
+    }
 }
 
 void getJobState(JobHandle job, JobState *state)
