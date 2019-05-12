@@ -1,4 +1,5 @@
 #ifndef MAPREDUCECLIENT_H
+
 #define MAPREDUCECLIENT_H
 
 #include <vector>  //std::vector
@@ -66,5 +67,4 @@ public:
 		const = 0;
 };
 
-
-#endif //MAPREDUCECLIENT_H
+#endif

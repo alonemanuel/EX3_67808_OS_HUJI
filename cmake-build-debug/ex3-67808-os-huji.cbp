@@ -90,9 +90,6 @@
 		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Barrier.h">
 			<Option target="ex3"/>
 		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceClient.h">
-			<Option target="ex3"/>
-		</Unit>
 		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/MapReduceFramework.cpp">
 			<Option target="ex3"/>
 		</Unit>
@@ -100,12 +97,6 @@
 			<Option target="ex3"/>
 		</Unit>
 		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/SampleClient.cpp">
-			<Option target="ex3"/>
-		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequencies.cpp">
-			<Option target="ex3"/>
-		</Unit>
-		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/WordFrequenciesClient.hpp">
 			<Option target="ex3"/>
 		</Unit>
 		<Unit filename="/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/CMakeLists.txt">

@@ -204,33 +204,6 @@ SampleClient.cpp.s:
 	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/SampleClient.cpp.s
 .PHONY : SampleClient.cpp.s
 
-Tests/Tarantino/WordFrequencies.o: Tests/Tarantino/WordFrequencies.cpp.o
-
-.PHONY : Tests/Tarantino/WordFrequencies.o
-
-# target to build an object file
-Tests/Tarantino/WordFrequencies.cpp.o:
-	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.o
-.PHONY : Tests/Tarantino/WordFrequencies.cpp.o
-
-Tests/Tarantino/WordFrequencies.i: Tests/Tarantino/WordFrequencies.cpp.i
-
-.PHONY : Tests/Tarantino/WordFrequencies.i
-
-# target to preprocess a source file
-Tests/Tarantino/WordFrequencies.cpp.i:
-	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.i
-.PHONY : Tests/Tarantino/WordFrequencies.cpp.i
-
-Tests/Tarantino/WordFrequencies.s: Tests/Tarantino/WordFrequencies.cpp.s
-
-.PHONY : Tests/Tarantino/WordFrequencies.s
-
-# target to generate assembly for a file
-Tests/Tarantino/WordFrequencies.cpp.s:
-	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/Tests/Tarantino/WordFrequencies.cpp.s
-.PHONY : Tests/Tarantino/WordFrequencies.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -249,9 +222,6 @@ help:
 	@echo "... SampleClient.o"
 	@echo "... SampleClient.i"
 	@echo "... SampleClient.s"
-	@echo "... Tests/Tarantino/WordFrequencies.o"
-	@echo "... Tests/Tarantino/WordFrequencies.i"
-	@echo "... Tests/Tarantino/WordFrequencies.s"
 .PHONY : help
 
 

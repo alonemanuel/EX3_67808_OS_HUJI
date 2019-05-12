@@ -52,7 +52,7 @@ typedef std::vector<IntermediatePair> IntermediateVec;
 typedef std::vector<OutputPair> OutputVec;
 
 
-class MapReduceClient {
+class SampleClient {
 public:
 	// gets a single pair (K1, V1) and calls emit2(K2,V2, context) any
 	// number of times to output (K2, V2) pairs.

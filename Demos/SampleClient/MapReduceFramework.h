@@ -15,7 +15,7 @@ typedef struct {
 void emit2 (K2* key, V2* value, void* context);
 void emit3 (K3* key, V3* value, void* context);
 
-JobHandle startMapReduceJob(const MapReduceClient& client,
+JobHandle startMapReduceJob(const SampleClient& client,
 	const InputVec& inputVec, OutputVec& outputVec,
 	int multiThreadLevel);
 

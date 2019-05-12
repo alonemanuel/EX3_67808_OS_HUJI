@@ -1,0 +1,10 @@
+Place the folder in the root of the project.
+provide the program the number of files to process (1-9). 
+each file text will be processed in separate thread.
+
+
+** the compiled gen file in the text_gen dir can create some other files to manipulate on**
+
+
+
+credit for gen_file saved to Roy Margalit

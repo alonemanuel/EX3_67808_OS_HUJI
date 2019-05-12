@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <unistd.h>
-#include "../../MapReduceClient.h"
+#include "../../SampleClient.h"
 #include "../../MapReduceFramework.h"
 
 const int SLEEP_US = 20;
@@ -65,7 +65,7 @@ public:
     {}
 };
 
-class MapReduceWordFrequencies : public MapReduceClient
+class MapReduceWordFrequencies : public SampleClient
 {
     virtual void map(const K1 *const key, const V1 *const val, void *context) const
     {
