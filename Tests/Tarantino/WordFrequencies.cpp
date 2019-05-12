@@ -4,6 +4,7 @@
 
 #include "WordFrequenciesClient.hpp"
 #include <algorithm>
+//#include "../../Tests/Tarantino/scripts"
 
 using std::cout;
 using std::endl;
@@ -15,8 +16,7 @@ using std::ofstream;
 using std::vector;
 
 // TODO: Play with this path to match your directories
-const string SCRIPTS_DIR = "C:\\Users\\kalir\\Desktop\\Univ\\Year 2\\Semester B\\OS\\ex3-67808-os-huji\\"
-						   "Tests\\Tarantino\\scripts\\";
+const string SCRIPTS_DIR = "/cs/usr/alonemanuel/Year2/Semester2/67808_OS/EX3_67808_OS_HUJI/Tests/Tarantino/scripts/";
 const int REPORT_FREQ_MS = 500;
 
 class ScriptJob
@@ -97,11 +97,12 @@ public:
 
 	void writeByFrequency()
 	{
+		cout << "Logging: " << "Output size is: " << output.size() << endl;
 		// get length of longest word (so we can write to the file in a nice format)
 		unsigned int maxLength = 0;
 		for (auto &frequencie : output)
 		{
-            auto length = static_cast<unsigned int>((*(Word *) frequencie.first).getWord().length());
+			auto length = static_cast<unsigned int>((*(Word *) frequencie.first).getWord().length());
 			maxLength = length > maxLength ? length : maxLength;
 		}
 
@@ -121,7 +122,7 @@ public:
 				 return ((Integer *) o1.second)->val > ((Integer *) o2.second)->val
 						|| ((Word *) o1.first)->getWord() < ((Word *) o2.first)->getWord();
 			 }
-		);
+			);
 
 		// Writ results to file
 		for (auto &pair : output)
@@ -139,6 +140,7 @@ public:
 			delete pair.first;
 			delete pair.second;
 		}
+		cout << "Logging: " << "Last pair is: " << ((Word*)output.back().first)->getWord() << endl;
 	}
 };
 
@@ -148,8 +150,8 @@ int main()
 	vector<string> paths;
 
 	paths.emplace_back(SCRIPTS_DIR + "Inglourious_Basterds");
-    paths.emplace_back(SCRIPTS_DIR + "Reservoir_Dogs");
-    paths.emplace_back(SCRIPTS_DIR + "Pulp_Fiction");
+	paths.emplace_back(SCRIPTS_DIR + "Reservoir_Dogs");
+	paths.emplace_back(SCRIPTS_DIR + "Pulp_Fiction");
 
 	// Generate jobs
 	jobs.reserve(paths.size());
@@ -186,11 +188,11 @@ int main()
 		waitForJob(job->handle);
 	}
 
-    // Write output
-    for (auto job :jobs)
+	// Write output
+	for (auto job :jobs)
 	{
-        job->writeByFrequency();
-    }
+		job->writeByFrequency();
+	}
 
 	// Kill
 	for (auto job :jobs)

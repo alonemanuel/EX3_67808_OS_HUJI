@@ -1,3 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2018.2.5\bin\cmake\win\bin\cmake.exe" -E remove -f CMakeFiles\cmake-build-debug.dir/objects.a
-C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\ar.exe cr CMakeFiles\cmake-build-debug.dir/objects.a @CMakeFiles\cmake-build-debug.dir\objects1.rsp
-C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  -pthread -g   -Wl,--whole-archive CMakeFiles\cmake-build-debug.dir/objects.a -Wl,--no-whole-archive  -o cmake-build-debug.exe -Wl,--out-implib,libcmake-build-debug.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmake-build-debug.dir\linklibs.rsp
